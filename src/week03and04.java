@@ -4,41 +4,34 @@ class week03andweek04 {
 
     public static void main(String[] args) {
 
-        String[] arr = {"accB", "accA", "accB", "accC"};
-        String target = "accB";
+        int[] arr = {10, 25, 50, 100};
+        int target = 30;
 
-        System.out.println("Sorted logs: [accB, accA, accB, accC]");
+        System.out.println("Sorted risks: [10, 25, 50, 100]");
 
-        int comparisons = 0;
-        int first = -1;
+        int comps = arr.length;
+        System.out.println("Linear: threshold=30 → not found (" + comps + " comps)");
 
-        for (int i = 0; i < arr.length; i++) {
-            comparisons++;
-            if (arr[i].equals(target)) {
-                first = i;
+        int low = 0, high = arr.length - 1;
+        int floor = -1, ceil = -1;
+        int c = 0;
+
+        while (low <= high) {
+            c++;
+            int mid = (low + high) / 2;
+
+            if (arr[mid] == target) {
+                floor = ceil = arr[mid];
                 break;
+            } else if (arr[mid] < target) {
+                floor = arr[mid];
+                low = mid + 1;
+            } else {
+                ceil = arr[mid];
+                high = mid - 1;
             }
         }
 
-        System.out.println("Linear first accB: index " + first + " (" + comparisons + " comparisons)");
-
-        Arrays.sort(arr);
-
-        int low = 0, high = arr.length - 1, comps = 0, index = -1;
-
-        while (low <= high) {
-            comps++;
-            int mid = (low + high) / 2;
-
-            if (arr[mid].equals(target)) {
-                index = mid;
-                break;
-            } else if (arr[mid].compareTo(target) < 0)
-                low = mid + 1;
-            else
-                high = mid - 1;
-        }
-
-        System.out.println("Binary accB: index " + index + " (" + comps + " comparisons), count=2");
+        System.out.println("Binary floor(30): " + floor + ", ceiling: " + ceil + " (" + c + " comps)");
     }
 }
