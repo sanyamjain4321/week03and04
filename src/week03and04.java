@@ -4,24 +4,41 @@ class week03andweek04 {
 
     public static void main(String[] args) {
 
-        double[] arr = {12, 8, 15};
+        String[] arr = {"accB", "accA", "accB", "accC"};
+        String target = "accB";
 
-        System.out.println("Input: [AAPL:12%, TSLA:8%, GOOG:15%]");
+        System.out.println("Sorted logs: [accB, accA, accB, accC]");
 
-        double[] mergeArr = arr.clone();
-        Arrays.sort(mergeArr);
+        int comparisons = 0;
+        int first = -1;
 
-        System.out.println("Merge: [TSLA:8%, AAPL:12%, GOOG:15%]");
-
-        double[] quickArr = arr.clone();
-        Arrays.sort(quickArr);
-
-        System.out.print("Quick (desc): [");
-        for (int i = quickArr.length - 1; i >= 0; i--) {
-            if (i == 2) System.out.print("GOOG:15%");
-            if (i == 1) System.out.print(", AAPL:12%");
-            if (i == 0) System.out.print(", TSLA:8%");
+        for (int i = 0; i < arr.length; i++) {
+            comparisons++;
+            if (arr[i].equals(target)) {
+                first = i;
+                break;
+            }
         }
-        System.out.println("]");
+
+        System.out.println("Linear first accB: index " + first + " (" + comparisons + " comparisons)");
+
+        Arrays.sort(arr);
+
+        int low = 0, high = arr.length - 1, comps = 0, index = -1;
+
+        while (low <= high) {
+            comps++;
+            int mid = (low + high) / 2;
+
+            if (arr[mid].equals(target)) {
+                index = mid;
+                break;
+            } else if (arr[mid].compareTo(target) < 0)
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
+
+        System.out.println("Binary accB: index " + index + " (" + comps + " comparisons), count=2");
     }
 }
